@@ -1,0 +1,89 @@
+.faq-area {
+    padding: 65px 0 80px;
+    @media (max-width: 991.98px){
+        padding: 40px 0 60px;
+    }
+    .faq-content{
+        p{
+            padding: 10px 0 0;
+        }
+    }
+}
+
+.faq-accordion {
+    max-width: 500px;
+    margin: 0 auto;
+    background: none;
+    border-radius: 0;
+    border: 0;
+    display: grid;
+    gap: 10px;
+    margin-top: 25px;
+
+    p {
+        font-family: 'Urbanist';
+        @media (max-width: 575.98px){
+            font-size: 14px;
+        }
+    }
+
+    .accordion-item {
+        background: none;
+        border-radius: 10px !important;
+        overflow: hidden;
+        border: 0;
+        &:last-of-type{
+            .accordion-button{
+                border-radius: 10px;
+            } 
+        }
+
+        .accordion-button { 
+            background: none; 
+            border: 1px solid #FFF;
+            color: #fff;
+            padding: 0 14px;
+            border-radius: 10px;
+            box-shadow: none !important;
+            height: 50px;
+            p{
+                display: flex;
+                align-items: center;
+                line-height: 1.2;
+
+            }
+            svg{
+                font-size: 23px;
+                margin-right: 8px;
+                margin-top: -3px;
+            }
+            &::after{
+                content: "+";
+                background: none;
+                color: #F2C77B;
+            }
+            &:not(.collapsed) {
+                background: #F2C77B;
+                color: #0E0E0E;
+                border-color: #F2C77B;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                &::after{
+                    content: "-";
+                    transform: unset;
+                    color: #0E0E0E;
+                }
+                svg{
+                   
+                }
+            }
+        }
+        .accordion-collapse{
+            background: rgba(255, 255, 255, 0.288);
+            p{
+                color: #fff;
+            }
+        }
+    }
+ 
+}

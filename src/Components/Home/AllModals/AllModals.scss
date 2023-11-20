@@ -1,0 +1,75 @@
+.block-chain-modal {
+  .modal-content {
+    border-radius: 10px;
+    border: 2px solid #f2c77b;
+    background: #071724;
+    max-width: 492px;
+    padding: 0 22px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: -23px;
+      bottom: -10px;
+      background: url("../../../images/navmodal-bg.png") no-repeat center;
+      width: 139.439px;
+      height: 222.575px;
+      z-index: -1;
+    }
+  }
+
+  .modal-header {
+    border-color: #f2c77b;
+  }
+
+  .modal-body,
+  .modal-header {
+    padding: 0;
+  }
+
+  .modal-title {
+    color: #fff;
+    font-family: "Urbanist";
+    font-size: 20px;
+    font-weight: 600;
+    padding: 15px 0;
+  }
+
+  .block-chain {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    row-gap: 40px;
+    text-align: center;
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 75px 0 108px;
+
+    .h4 {
+      color: #fff;
+      font-family: "Urbanist";
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    .icon {
+      height: 30px;
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.btn-close {
+  filter: invert(97%) sepia(44%) saturate(6111%) hue-rotate(306deg)
+    brightness(109%) contrast(90%);
+  opacity: 1;
+  border: 0;
+  box-shadow: none;
+  outline: none;
+  &:focus {
+    box-shadow: none;
+  }
+}

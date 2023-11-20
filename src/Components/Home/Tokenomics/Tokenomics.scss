@@ -1,0 +1,45 @@
+.tokenomics-area {
+    padding-top: 100px;
+    @media (max-width: 991.98px){
+        padding-top: 50px;
+    }
+}
+
+.tokenomics-content {
+    ul {
+        display: grid;
+        gap: 38px;
+        @media (max-width: 575.98px){
+            gap: 20px;
+        }
+
+        li {
+            &:first-child {
+                br {
+                    display: none;
+                }
+            }
+        }
+
+        ol {
+            margin-left: 30px;
+            @media (max-width: 575.98px){
+
+            }
+
+            li {
+                list-style: disc;
+                margin-top: 35px;
+                @media (max-width: 575.98px){
+                    margin-top: 20px;
+                }
+            }
+        }
+    }
+
+    .box-img { 
+        right: unset;
+        left: -257px;
+        bottom: -40px; 
+    }
+}
