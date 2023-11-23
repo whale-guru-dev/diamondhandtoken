@@ -6,8 +6,14 @@ import StakeTwo from "../Components/Dashboard/Vault/StakeTwo";
 // import BuyBurn from "../Components/Dashboard/Vault/BuyBurn";
 // import Buybacks from "../Components/Dashboard/Vault/Buybacks";
 import VaultTable from "../Components/Dashboard/Vault/VaultTable";
+import { useWeb3React } from "@web3-react/core";
 
 const Pulsechain = () => {
+  const {
+      account,
+      chainId,
+  } = useWeb3React();
+
   return (
     <div className="dashboard-wrapper">
       <Navbar />
@@ -22,8 +28,8 @@ const Pulsechain = () => {
             </div>
             <div className="col-lg-9">
               <div className="vault-content">
-                <Stake />
-                <StakeTwo/>
+                <Stake chainId={chainId} account={account}/>
+                <StakeTwo chainId={chainId} account={account}/>
                 {/* <div className="Buybacks-content">
                   <BuyBurn />
                   <Buybacks />
@@ -32,7 +38,7 @@ const Pulsechain = () => {
             </div>
             <div className="col-xl-12">
               <div className="table-responsive">
-                <VaultTable />
+                <VaultTable chainId={chainId} account={account}/>
               </div>
             </div>
           </div>
