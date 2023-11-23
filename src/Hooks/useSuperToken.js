@@ -9,7 +9,8 @@ import {
 
 import {
     SUPERTOKENABI,
-    WRAPPERABI
+    WRAPPERABI,
+    ERC20ABI
 } from '../data-access';
 import {
     getWeb3,
@@ -21,7 +22,8 @@ import useNotification from './useNotification';
 import STUiContext from '../Context/STUiContext';
 import {
     SuperToken_ADDRESS,
-    Wrapper_ADDRESS
+    Wrapper_ADDRESS,
+    Bridge_ADDRESS
 } from '../Const/super-token-consts';
 import { networks } from '../Const/super-token-consts';
 
@@ -55,6 +57,15 @@ export default function useSuperToken(network) {
         () => {
             if(chainId === 1) 
                 return new web3.eth.Contract(WRAPPERABI, Wrapper_ADDRESS);
+            else return null;
+        },
+        [web3, chainId]
+    );
+
+    const bridgeContractInstance  = useMemo(
+        () => {
+            if(chainId === 1) 
+                return new web3.eth.Contract(ERC20ABI, Bridge_ADDRESS);
             else return null;
         },
         [web3, chainId]
@@ -308,66 +319,119 @@ export default function useSuperToken(network) {
         }
     }
 
-    // const onWrapping = async () => {
-    //     let depositAmountNumber = Number(depositAmount);
-    //     if (depositAmountNumber <= 0 || !isConnected() || !isChainValid()) {
-    //         return;
-    //     }
+    const onWrapping = async () => {
+        let depositAmountNumber = Number(depositAmount);
+        if (depositAmountNumber <= 0 || !isConnected() || !isChainValid()) {
+            return;
+        }
 
-    //     try {
-    //         depositAmountNumber = numberToBN(depositAmountNumber, 18);
+        try {
+            depositAmountNumber = numberToBN(depositAmountNumber, 18);
 
-    //         const allowance = wrapperContractInstance.methods.allowance(address, Wrapper_ADDRESS).call();
+            const allowance = bridgeContractInstance.methods.allowance(address, Wrapper_ADDRESS).call();
 
-    //         if(allowance > depositAmountNumber) {
-    //             await wrapperContractInstance.methods.deposit(depositAmountNumber).send({
-    //                 from: address,
-    //             });
-    //             addNotification({
-    //                 title: 'Success',
-    //                 message: `You have successfully Vested ${userVestAmount} Token`,
-    //                 type: 'success',
-    //             });
-    //         } else {
-    //             await stContractInstance.methods.approve(SuperToken_ADDRESS, userVestAmountNumber).send({
-    //                 from: address,
-    //             });
+            if(allowance > depositAmountNumber) {
+                await wrapperContractInstance.methods.deposit(depositAmountNumber).send({
+                    from: address,
+                });
+                
+            } else {
+                await bridgeContractInstance.methods.approve(Wrapper_ADDRESS, depositAmountNumber).send({
+                    from: address,
+                });
 
-    //             addNotification({
-    //                 title: 'Success',
-    //                 message: `You have successfully Approved ${userVestAmount} Token`,
-    //                 type: 'success',
-    //             });
+                addNotification({
+                    title: 'Success',
+                    message: `You have successfully Approved ${depositAmountNumber} Token`,
+                    type: 'success',
+                });
 
-    //             await stContractInstance.methods.userVest(userVestAmountNumber).send({
-    //                 from: address,
-    //             });
+                await wrapperContractInstance.methods.deposit(depositAmountNumber).send({
+                    from: address,
+                });
+            }
 
-    //             addNotification({
-    //                 title: 'Success',
-    //                 message: `You have successfully Vested ${userVestAmount} Token`,
-    //                 type: 'success',
-    //             });
-    //         }
-    //     } catch (err) {
-    //         console.log(err)
-    //         if(err.code && err.code === 4001) {
-    //             addNotification({
-    //                 title: 'Failed!',
-    //                 message: 'You denied transaction signature',
-    //                 type: 'danger',
-    //             });
-    //         } else {
-    //             addNotification({
-    //                 title: 'Failed!',
-    //                 message: 'Vest Failed. Please check if you have enough balance.',
-    //                 type: 'danger',
-    //             });
-    //         }
-    //     } finally {
-    //         setLastUpdatedTime(Date.now());
-    //     }
-    // }
+            addNotification({
+                title: 'Success',
+                message: `You have successfully Wrapped ${depositAmountNumber} Token`,
+                type: 'success',
+            });
+        } catch (err) {
+            console.log(err)
+            if(err.code && err.code === 4001) {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'You denied transaction signature',
+                    type: 'danger',
+                });
+            } else {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'Wrapping Failed. Please check if you have enough balance.',
+                    type: 'danger',
+                });
+            }
+        } finally {
+            setLastUpdatedTime(Date.now());
+        }
+    }
+
+    const onUnWrapping = async () => {
+        let withdrawAmountNumber = Number(depositAmount);
+        if (withdrawAmountNumber <= 0 || !isConnected() || !isChainValid()) {
+            return;
+        }
+
+        try {
+            withdrawAmountNumber = numberToBN(withdrawAmountNumber, 18);
+
+            const allowance = await stContractInstance.methods.allowance(address, Wrapper_ADDRESS).call();
+
+            if(allowance > withdrawAmountNumber) {
+                await wrapperContractInstance.methods.withdraw(withdrawAmountNumber).send({
+                    from: address,
+                });
+                
+            } else {
+                await stContractInstance.methods.approve(Wrapper_ADDRESS, withdrawAmountNumber).send({
+                    from: address,
+                });
+
+                addNotification({
+                    title: 'Success',
+                    message: `You have successfully Approved ${withdrawAmountNumber} Token`,
+                    type: 'success',
+                });
+
+                await wrapperContractInstance.methods.withdraw(withdrawAmountNumber).send({
+                    from: address,
+                });
+            }
+
+            addNotification({
+                title: 'Success',
+                message: `You have successfully Unwrapped ${withdrawAmountNumber} Token`,
+                type: 'success',
+            });
+        } catch (err) {
+            console.log(err)
+            if(err.code && err.code === 4001) {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'You denied transaction signature',
+                    type: 'danger',
+                });
+            } else {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'Unwrapping Failed. Please check if you have enough balance.',
+                    type: 'danger',
+                });
+            }
+        } finally {
+            setLastUpdatedTime(Date.now());
+        }
+    }
 
     // const onGetSparkPrice = async () => {
     //     try {
@@ -403,7 +467,13 @@ export default function useSuperToken(network) {
         onUserVest,
         onGetVestInfo,
         onClaim,
-        switchNetwork
+        switchNetwork,
+        depositAmount,
+        setDepositAmount,
+        withdrawAmount,
+        setWithdrawAmount,
+        onWrapping,
+        onUnWrapping
         // onGetSparkPrice,
         // onGetPlsPrice
     };

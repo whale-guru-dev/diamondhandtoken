@@ -1,12 +1,57 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import './Vault.scss'
+import useSuperToken from '../../../Hooks/useSuperToken';
+import { WalletContext } from '../../../Context/WalletContext';
+import { FETCH_INTERVAL } from "../../../Const/super-token-consts";
 
-const StakeWrapper = () => {
+const StakeWrapper = ({chainId, account}) => {
+    const handler = useRef(null);
+    const { setShowWalletModal } = useContext(WalletContext);
     const [activeItem, setActiveItem] = useState('10%');
+    const [balance, setBalance] = useState(0);
 
     const handleItemClick = (percentage) => {
         setActiveItem(percentage); 
     };
+
+    const {
+        depositAmount,
+        setDepositAmount,
+        onGetUserTokenBalance,
+        onWrapping,
+        onUnWrapping,
+    } = useSuperToken(1);
+
+    useEffect(() => {
+		if(!account || !chainId) {
+			setShowWalletModal(true);
+		}
+        async function getBalance() {
+            const promises = [];
+            if (account && chainId) {
+                promises.push(
+                    onGetUserTokenBalance()
+                );
+            } else {
+                promises.push(0)
+            }
+
+            const [balance] = await Promise.all(promises);
+            setBalance(balance);
+            
+            return true;
+        }
+
+        handler.current = setInterval(() => {
+            getBalance();
+        }, FETCH_INTERVAL);
+
+        return () => {
+            if (handler.current) {
+                clearInterval(handler.current);
+            }
+        };
+    }, [account]);
 
     return (
         <div className="stake-content">
@@ -14,7 +59,7 @@ const StakeWrapper = () => {
             <div className="stake-form">
                 <div className="stake-text">
                     <span>
-                        <input type="number" placeholder='0.0' />
+                        <input type="number" placeholder='0.0' value={depositAmount} onChange={(e) => setDepositAmount(e.currentTarget.value)}/>
                         <strong>$0.00</strong>
                     </span>
                     <span>
@@ -23,7 +68,7 @@ const StakeWrapper = () => {
                 </div>
                 <div className="stake-available">
                     <p>Token Balance:</p>
-                    <p>9,364,332.77</p>
+                    <p>{balance.toFixed(5)}</p>
                 </div>
             </div>
             <ul className="purest">
@@ -34,8 +79,8 @@ const StakeWrapper = () => {
                 <li className={activeItem === 'Max' ? 'active' : ''} onClick={() => handleItemClick('Max')}>Max</li>
             </ul>
             <div className="text-center stake-btn">
-                <button className="btn-lg">Wrap Token</button>
-                <button className="btn-lg">Unwrap Token</button>
+                <button className="btn-lg" onClick={() => onWrapping()}>Wrap Token</button>
+                <button className="btn-lg" onClick={() => onUnWrapping()}>Unwrap Token</button>
             </div> 
         </div>
     );
