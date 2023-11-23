@@ -328,7 +328,7 @@ export default function useSuperToken(network) {
         try {
             depositAmountNumber = numberToBN(depositAmountNumber, 18);
 
-            const allowance = bridgeContractInstance.methods.allowance(address, Wrapper_ADDRESS).call();
+            const allowance = await bridgeContractInstance.methods.allowance(address, Wrapper_ADDRESS).call();
 
             if(allowance > depositAmountNumber) {
                 await wrapperContractInstance.methods.deposit(depositAmountNumber).send({
