@@ -9,6 +9,7 @@ import WALLETCONNECT_ICON_URL from '../../Assets/img/walletConnectIcon.svg';
 import styled from 'styled-components';
 import useAuth from '../../Hooks/useAuth';
 import useNotification from '../../Hooks/useNotification';
+import { networks } from '../../Const/super-token-consts';
 
 const SUPPORTED_WALLETS = [
   {
@@ -70,7 +71,7 @@ const ProviderOptions = () => {
 
   const wallets = SUPPORTED_WALLETS.filter((option) => {
     if (option.injected) {
-      return window.ethereum || window.BinanceChain ? true : false;
+      return window.ethereum ? true : false;
     }
 
     return true;
@@ -98,10 +99,11 @@ const ProviderOptions = () => {
 };
 
 const AccountInformation = () => {
-  const { account } = useWeb3React();
+  const { account, chainId } = useWeb3React();
   const { addNotification } = useNotification();
   const { logout } = useAuth();
   const { setShowWalletModal } = useContext(WalletContext);
+  const network = networks.find(each => each.id === chainId);
 
   return (
     <AccountInfoCard>
@@ -125,7 +127,7 @@ const AccountInformation = () => {
         <a
           target="_blank"
           rel="noreferrer noopener"
-          href={`https://scan.pulsechain.com/address/${account}`}
+          href={`${network.explorer}/address/${account}`}
         >
           <i className="fa fa-external-link" style={{ marginLeft: 24, marginRight: 8 }} />
           View on Block Explorer

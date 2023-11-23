@@ -60,6 +60,43 @@ export default function useSuperToken(network) {
         [web3, chainId]
     );
 
+    const switchNetwork = async () => {
+        console.log({network})
+        const dNetwork = networks.find((each) => each.id == network);
+        console.log({networkVersion: window.ethereum.networkVersion})
+        if (window.ethereum.networkVersion != network) {
+            addNotification({
+                title: 'Wrong network',
+                message: `Please switch your network to ${dNetwork.name}.`,
+                type: 'danger',
+            });
+
+            try {
+                await window.ethereum.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: web3.utils.toHex(network) }]
+                });
+            } catch (err) {
+                // This error code indicates that the chain has not been added to MetaMask
+                if (err.code === 4902) {
+                await window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [
+                        {
+                            chainName: dNetwork.name,
+                            chainId: web3.utils.toHex(network),
+                            nativeCurrency: { name: dNetwork.symbol, decimals: 18, symbol: dNetwork.symbol },
+                            rpcUrls: [dNetwork.rpcUrl]
+                        }
+                    ]
+                });
+                }
+            }
+        } else {
+            return ;
+        }
+    }
+
     const isConnected = () => {
         if(!address) {
             addNotification({
@@ -227,7 +264,7 @@ export default function useSuperToken(network) {
         try {
             if (!isConnected() || !isChainValid()) {
                 return;
-            } console.log(vestIndex)
+            }
             await stContractInstance.methods.claimRewards(vestIndex).send({
                 from: address,
             });
@@ -349,7 +386,8 @@ export default function useSuperToken(network) {
         onBuyAndVest,
         onUserVest,
         onGetVestInfo,
-        onClaim
+        onClaim,
+        switchNetwork
         // onGetSparkPrice,
         // onGetPlsPrice
     };

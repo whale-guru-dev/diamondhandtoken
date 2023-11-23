@@ -1,6 +1,7 @@
 import React from "react";
 import { useWeb3React } from "@web3-react/core";
 import useConnectHandler from "../../Hooks/useConnectHandler";
+import { networks } from "../../Const/super-token-consts";
 
 const parseAddress = (address) => {
   if (address) {
@@ -12,9 +13,9 @@ const parseAddress = (address) => {
 };
 
 export default function ConnectBtn() {
-  const { account, chainId } = useWeb3React();
+  const { account, chainId } = useWeb3React(); 
 
-  const chainSupported = chainId === 369;
+  const chainSupported = networks.find((each) => each.id == chainId)
 
   const { onConnectClick } = useConnectHandler();
 

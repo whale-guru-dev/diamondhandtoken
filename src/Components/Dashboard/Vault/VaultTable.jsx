@@ -60,7 +60,7 @@ const VaultTable = ({chainId, account}) => {
           <li>Action</li>
         </ul>
         <div className="table-body">
-          {vestData.map((item, index) => (
+          {vestData && vestData.map((item, index) => (
             <ul className="vault-table-item" key={item.index}>
               <li>{index + 1}</li>
               <li>{item.amount}</li>

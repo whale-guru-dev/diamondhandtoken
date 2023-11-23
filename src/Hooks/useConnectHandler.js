@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import useNotification from './useNotification';
 import { WalletContext } from '../Context/WalletContext';
+import { networks } from '../Const/super-token-consts';
 
 export default function useConnectHandler() {
   const { chainId } = useWeb3React();
@@ -13,14 +14,12 @@ export default function useConnectHandler() {
     setShowWalletModal(true);
   };
 
-
-  const chainSupported = (chainId === 369);
-
+  const chainSupported = networks.find(each => each.id === chainId);
   const onConnectClick = () => {
     if (chainId && !chainSupported) {
       addNotification({
         title: 'Chain Error',
-        message: `Please check if PulseChain network is chosen.`,
+        message: `Please check if ${chainSupported.name} network is chosen.`,
         type: 'danger',
       });
     }

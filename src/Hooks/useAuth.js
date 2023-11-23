@@ -23,7 +23,7 @@ const useAuth = () => {
         if (error instanceof UnsupportedChainIdError) {
           addNotification({
             title: 'Chain Error',
-            message: 'Please check if PulseChain network is chosen.',
+            message: 'Please check if blockchain network is chosen.',
             type: 'danger',
           });
           activate(connector);

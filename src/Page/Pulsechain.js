@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../Components/Dashboard/Navbar/Navbar";
 import Copyright from "../Components/Staking/Copyright/Copyright";
 import Stake from "../Components/Dashboard/Vault/Stake";
@@ -7,12 +7,19 @@ import StakeTwo from "../Components/Dashboard/Vault/StakeTwo";
 // import Buybacks from "../Components/Dashboard/Vault/Buybacks";
 import VaultTable from "../Components/Dashboard/Vault/VaultTable";
 import { useWeb3React } from "@web3-react/core";
+import useSuperToken from "../Hooks/useSuperToken";
 
 const Pulsechain = () => {
   const {
       account,
       chainId,
   } = useWeb3React();
+
+  const {switchNetwork} = useSuperToken(369);
+
+  useEffect(() => {
+    switchNetwork();
+  }, [account]);
 
   return (
     <div className="dashboard-wrapper">

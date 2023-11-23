@@ -25,11 +25,15 @@ export const ConnectorNames = {
   WalletConnect: 'WalletConnect',
 };
 
-const injected = new InjectedConnector({ supportedChainIds: [369] });
-const rpcUrl = getPulseNodeUrl();
+const injected = new InjectedConnector({ supportedChainIds: [1, 56, 137, 369] });
 const walletconnect = new WalletConnectConnector({
-  rpc: { 369: rpcUrl },
-  supportedChainIds: [369],
+  rpc: { 
+    1 : 'https://mainnet.infura.io/v3/',
+    56: 'https://bsc-dataseed3.ninicoin.io/',
+    137: 'https://polygon-rpc.com',
+    369: 'https://rpc.pulsechain.com'
+   },
+  supportedChainIds: [1, 56, 137, 369],
 });
 
 export const connectorsByName = {
