@@ -61,9 +61,7 @@ export default function useSuperToken(network) {
     );
 
     const switchNetwork = async () => {
-        console.log({network})
         const dNetwork = networks.find((each) => each.id == network);
-        console.log({networkVersion: window.ethereum.networkVersion})
         if (window.ethereum.networkVersion != network) {
             addNotification({
                 title: 'Wrong network',
@@ -95,6 +93,11 @@ export default function useSuperToken(network) {
         } else {
             return ;
         }
+    }
+
+    const getGasPrice = async () => {
+        const gasPrice = await web3.eth.getGasPrice();
+        return web3.utils.toHex(gasPrice)
     }
 
     const isConnected = () => {
@@ -140,11 +143,21 @@ export default function useSuperToken(network) {
         }
 
         try {
-            buyAndVestAmountNumber = numberToBN(buyAndVestAmountNumber, 18);
-            await stContractInstance.methods.buyAndVest().send({
+            buyAndVestAmountNumber = numberToBN(buyAndVestAmountNumber, 18); 
+            if(network === 56) {
+                const gasPrice = await getGasPrice();
+                await stContractInstance.methods.buyAndVest().send({
+                        from: address,
+                        value: buyAndVestAmountNumber,
+                        gasPrice
+                });
+            } else {
+                await stContractInstance.methods.buyAndVest().send({
                     from: address,
-                    value: buyAndVestAmountNumber
-            });
+                    value: buyAndVestAmountNumber,
+                });
+            }
+            
             
             addNotification({
                 title: 'Success',
@@ -152,6 +165,7 @@ export default function useSuperToken(network) {
                 type: 'success',
             });
         } catch (err) {
+            console.log(err)
             if(err.code && err.code === 4001) {
                 addNotification({
                     title: 'Failed!',
@@ -179,7 +193,9 @@ export default function useSuperToken(network) {
         try {
             userVestAmountNumber = numberToBN(userVestAmountNumber, 18);
 
-            const allowance = stContractInstance.methods.allowance(address, SuperToken_ADDRESS).call();
+            const allowance = await stContractInstance.methods.allowance(address, SuperToken_ADDRESS).call();
+
+
 
             if(allowance > userVestAmountNumber) {
                 await stContractInstance.methods.userVest(userVestAmountNumber).send({

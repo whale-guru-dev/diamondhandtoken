@@ -40,7 +40,6 @@ const Stake = ({chainId, account}) => {
 
             const [balance] = await Promise.all(promises);
             setBalance(balance);
-            console.log({balance})
             return true;
         }
 
