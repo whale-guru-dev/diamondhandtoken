@@ -227,7 +227,7 @@ export default function useSuperToken(network) {
         try {
             if (!isConnected() || !isChainValid()) {
                 return;
-            }
+            } console.log(vestIndex)
             await stContractInstance.methods.claimRewards(vestIndex).send({
                 from: address,
             });

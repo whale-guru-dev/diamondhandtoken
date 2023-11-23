@@ -70,7 +70,7 @@ const VaultTable = ({chainId, account}) => {
               <li>
                 <div className="button-group">
                   {/* <button className="reinvest">Reinvest</button> */}
-                  <button className="claim" onClick={() => onClaim(item.index)}>Claim</button>
+                  <button className="claim" onClick={() => onClaim(index)}>Claim</button>
                 </div>
               </li>
             </ul>
