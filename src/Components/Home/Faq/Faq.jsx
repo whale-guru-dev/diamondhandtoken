@@ -24,9 +24,7 @@ const Faq = () => {
                     </p>
                   </Accordion.Header>
                   <Accordion.Body>
-                    <p>
-                        {item.desc}
-                    </p>
+                    <p dangerouslySetInnerHTML={{ __html: item.desc }} />
                   </Accordion.Body>
                 </Accordion.Item>
               ))}
@@ -43,32 +41,17 @@ export default Faq;
 const faqData = [
   {
     id: 0,
-    title: "What is Diamond Hands (DT)?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    title: "What Makes The DT Token Unique ? ",
+    desc: "Upon launch the DT token will immediately be available for trading on five different blockchains. The token is fairly launched with no ICO, presale, or any form of selling tokens to early investors. The dev team will not be responsible for a single token being sold on the open market, as we are well funded for the long term mission of the project's success. At its early phases the DT token is simply a ROI Dapp, but down the line it will transition to a complete utility token backed by DeFi applications that produce revenue through the service it provides to the Venom Blockchain.",
   },
   {
     id: 1,
-    title: "How can I participate in DH?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    title: "What is the staking APR?",
+    desc: "The staking APR is 265% and when a user does stake the initial stake amount is considered to be “vested” and the individual will earn 1% per day on the stake amount until they reach a total payout of 365% and out of the 365%, 265% could be considered the extra tokens users receive.",
   },
   {
     id: 2,
-    title: "What makes DH different from other DeFi projects?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-  {
-    id: 3,
-    title: "How does staking work in DH?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-  {
-    id: 4,
-    title: "What is the purpose of the transfer tax?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-  {
-    id: 5,
-    title: "How can I benefit from the arbitrage opportunities",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
+    title: "Where Can I Get More Information On This Project? ",
+    desc: "The best place to receive more information on this project is by going through our DOC page. Click <a href='https://techadoptiongroup.gitbook.io/diamondhandtoken/about/diamondhand-token' target='_blank'>here</a> to read our docs",
+  }
 ];

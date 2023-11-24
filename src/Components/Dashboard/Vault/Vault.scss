@@ -96,14 +96,16 @@ input[type="number"] {
 }
 
 .vault-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  // display: grid;
+  // grid-template-columns: 1fr 1fr;
   align-items: end;
   gap: 24px;
   margin-top: 25px;
+  display: flex;
 
   @media (max-width: 767.98px) {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: 1fr !important;
   }
 
   .stake-available {

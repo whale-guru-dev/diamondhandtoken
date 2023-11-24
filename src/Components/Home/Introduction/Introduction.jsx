@@ -14,15 +14,7 @@ const Introduction = () => {
               </div>
               <div className="box-desc">
                 <p>
-                  The DT team aims to create a token ecosystem that promotes
-                  price appreciation without relying on staking rewards for
-                  token inflation. They plan to achieve this through a fair
-                  launch, eliminating pre-sales and early investor allocations.
-                  Additionally, a liquidity pool buy and burn mechanism will be
-                  implemented, and token purchasers will have controlled selling
-                  constraints and a vesting period. This strategy ensures the DT
-                  token remains hyper-deflationary, supporting long-term value
-                  growth.
+                  The DiamondHand Token (DT) is a project that will be completed in phases. The goal is to initially launch (fair launch) a cross-chain roi dapp style token in the style that we call an “open market presale”. Upon launch the DT token itself is a fully functioning token with the ability for users to purchase it on five different blockchains and with the ability to stake their tokens to earn more DT.  ROI dapp tokens are known to explode in value early on (if done correctly) however, to ensure long term sustainability the DT team will eventually transition the DT token into a utility token that will benefit from the DeFi ecosystem that the team builds on the upcoming Venom blockchain. We strongly advise you to read our doc page and more of our website for more information.
                 </p>
               </div>
               <div className="box-img">

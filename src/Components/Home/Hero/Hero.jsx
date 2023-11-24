@@ -18,10 +18,7 @@ const Hero = () => {
                 <div className="text-50">Unleash the </div>
                 <h1 className="primary-text">power of DeFi</h1>
                 <p>
-                  The Diamond Token (DT) is a unique defi experiment that
-                  focuses primarily on deflationary tokenomics and a
-                  programmable community behavior to create a token that has the
-                  best chance of appreciating value
+                  Welcome to the first fairlaunched multi-chain ROI Dapp & Open market presale. Please take the time to read our projects website, doc page, join our group chats, and follow our social media channels.
                 </p>
                 <div className="hero-btn-con d-flex gap-3 align-items-center justify-content-center">
                   <button

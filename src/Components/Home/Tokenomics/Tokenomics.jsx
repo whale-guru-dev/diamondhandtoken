@@ -52,28 +52,32 @@ export default Tokenomics;
 const tokenomicsData = [
   {
     id: 1,
-    title: "Total Token Supply: ",
-    desc: "40,000 DH",
+    title: "Token Supply & Allocation: ",
+    desc: "Upon token deployment 400,000 tokens are created on Ethereum,  Binance Smartchain, Polygon, Avalanche, and Pulsechain. On each chain 50,000 tokens are allocated to the CrossChain bridge liquidity pool, 15,000 tokens are allocated to the lp of Uniswap V2, PancakeSwap, QuickSwap, Traderjoe, and PulseX.",
   },
   {
     id: 2,
-    title: "Daily Buy & Burn :",
-    desc: "Typically between 1% - 3%",
+    title: "Sel & Transfer Tax :",
+    desc: "There is zero taxes on sales and transfers of the DT token. ",
   },
   {
     id: 3,
-    title: "Zero Tax :",
-    desc: "There is no tax on buys, transfers, or sales.",
+    title: "Buy Tax :",
+    desc: "There will be a 25% buy tax for the DT token across all blockchains it is tradeable on. This buy tax will get burned and users can avoid the buy tax by utilizing our Dapp page and using the buy and stake function in our website. This will create a purchase of the DT token with zero tax, but immediately stake the tokens upon purchase.",
   }, 
-  
+  {
+    id: 4,
+    title: "Cross Chain Token - ",
+    desc: "Thanks to the utility of the CrossChain Bridge & the PulseChain Bridge the DT token will be tradeable on five EVM blockchains upon launch. The activity on one chain can positively affect the activity on the other chains due to the arbitrage opportunities.",
+  },
   {
     id: 5,
-    title: "Cross Chain Token (Coming Eventually)",
-    desc: "-  DT’s  presence on multiple blockchains creates arbitrage opportunities for traders. This feature helps balance activity across different chains, ensuring a dynamic ecosystem.",
+    title: "Staking -",
+    desc: "Upon creating a stake the initial stake amount can be considered “vested” and users will begin to  earn 1% a day with a total APR of 265% (in DT tokens) for each of their active stakes. Staking will be one of the best ways to take full advantage of the open market presale."
   },
   {
     id: 6,
-    title: "Long-Term Sustainability -",
-    desc: "With a limited token supply and sustainable tokenomics, DT  aims to maintain and increase its value over time. Our commitment to scarcity and thoughtful economics benefits long-term holders.",
+    title: "Long Term Vision -",
+    desc: "Even the beginning phases of the DiamondHand Token project presents itself with some opportunities. The fair launch, low supply, and a staking model that rewards long term believers is a recipe for success. However, unless the DT transitions into a utility token it will always be just a ROI Dapp token. Please read our DOC page with information on our open market presale and how we plan to transition into a token with major utility from DeFi use cases.",
   },
 ];

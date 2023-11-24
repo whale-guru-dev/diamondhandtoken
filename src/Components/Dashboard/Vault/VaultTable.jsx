@@ -53,9 +53,9 @@ const VaultTable = ({chainId, account}) => {
       <div className="vault-table">
         <ul className="table-title">
           <li>#</li>
-          <li>Amount Vested</li>
+          <li>Amount Staked</li>
           <li>Amount Claimed</li>
-          <li>Date of Vest</li>
+          <li>Date of Stake</li>
           <li>Reward Amount</li>
           <li>Action</li>
         </ul>

@@ -9,24 +9,12 @@ const DHSExplained = () => {
           <div className="col-lg-12">
             <div className="box-content DHSExplained-content">
               <div className="box-title">
-                <div className="h2">DT Buy + Vesting Explained</div>
+                <div className="h2">Venom Network</div>
                 <div className="border-c"></div>
               </div>
               <div className="box-desc">
                 <p>
-                  When a user acquires DT tokens, they immediately enter a
-                  vesting period, during which they receive their tokens
-                  gradually as a 1% daily payout. This accumulation continues
-                  until they've received 100% of their initial purchase, which
-                  typically takes 100 days. Users can monitor their claimable
-                  balance, which grows every second, and they have the
-                  flexibility to claim these tokens at any moment. It's worth
-                  noting that each purchase and vesting event is subject to a $2
-                  maintenance fee in DAI, which is charged weekly at a specific
-                  time for all users. If a user vests their tokens shortly
-                  before the fee time, they will be required to pay the fee for
-                  the entire week. Users must settle the fee before claiming
-                  their tokens, and it accumulates on a weekly basis.
+                  Venom Network is a promising upcoming fair launched blockchain project being launched with a license under the Abu Dhabi Global Market (ADGM) framework. The aim of the Venom blockchain is to provide a fast, low transaction fee, and scalable blockchain with smart contract functionality. They claim to be able to handle 100,000 transactions per second with an average transaction fee of 0.0002 USD. As of 11/24/2023, the venom project is currently in a testnet phase with a guaranteed NFT air drop & rumored to be having a potential coin airdrop to testnet participants. Based off the Venom Network social media stats we can see that there are close to 600,000 to 1millon users currently apart of the Venom community. Understanding the Venom project is important as it is relevant to the mission of the DiamondHand Token project. The overall goal of the DT team is to build high quality dapps on the venom blockchain (such as a dex, oracle service, etc..). The DiamondHand Token will eventually transition into a ecosystem revenue share token that benefits from the success of these DeFi applications. The first product that the DT team will launch on Venom is a decentralized exchange called WaffleSwap.
                 </p>
               </div>
             </div>

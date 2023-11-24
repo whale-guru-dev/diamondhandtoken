@@ -88,11 +88,11 @@ const Navbar = () => {
                 </li>
                 <li className="nav-item">
                   <a
-                    href="#FAQs"
+                    href="https://techadoptiongroup.gitbook.io/diamondhandtoken/protocol/bridge-info"
+                    target="_blank"
                     className="nav-link"
-                    onClick={toggleOffcanvas}
                   >
-                    FAQs
+                    Bridge Info (DOCS)
                   </a>
                 </li>
               </ul>

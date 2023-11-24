@@ -58,7 +58,7 @@ const Stake = ({chainId, account}) => {
     return (
         <div className="stake-content">
             <div className="h3">Stake</div>
-            <p>A minimum of 1 DH required to buy & Stake</p>
+            <p>There is currently a 25% buy tax for the DT token on all DEXs. However, using this website allows you to buy the tokens without incurring any taxes, but the tokens will be immediately staked.</p>
             <div className="stake-form">
                 <div className="stake-text">
                     <span>
@@ -74,17 +74,10 @@ const Stake = ({chainId, account}) => {
                     <p>{balance.toFixed(6)}</p>
                 </div>
             </div>
-            <ul className="purest">
-                <li className={activeItem === '10%' ? 'active' : ''} onClick={() => handleItemClick('10%')}>10%</li>
-                <li className={activeItem === '25%' ? 'active' : ''} onClick={() => handleItemClick('25%')}>25%</li>
-                <li className={activeItem === '50%' ? 'active' : ''} onClick={() => handleItemClick('50%')}>50%</li>
-                <li className={activeItem === '75%' ? 'active' : ''} onClick={() => handleItemClick('75%')}>75%</li>
-                <li className={activeItem === 'Max' ? 'active' : ''} onClick={() => handleItemClick('Max')}>Max</li>
-            </ul>
+            
             <div className="text-center">
-                <button className="btn-lg" onClick={onBuyAndVest}>Buy And Vest</button>
+                <button className="btn-lg" onClick={onBuyAndVest}>Buy And Stake</button>
             </div>
-            <p>A <span className='deposits-purest'>{activeItem}</span> tax is charged on buys </p>
         </div>
     );
 };

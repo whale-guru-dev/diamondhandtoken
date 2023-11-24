@@ -56,7 +56,7 @@ const StakeTwo = ({chainId, account}) => {
     return (
         <div className="stake-content">
             <div className="h3">Stake</div>
-            <p>A minimum of 1 DH required to buy & Stake</p>
+            <p>This section allows you to re-stake any DT tokens you may have claimed or bought off the open market.</p>
             <div className="stake-form">
                 <div className="stake-text">
                     <span>
@@ -72,17 +72,10 @@ const StakeTwo = ({chainId, account}) => {
                     <p>{balance.toFixed(5)}</p>
                 </div>
             </div>
-            <ul className="purest">
-                <li className={activeItem === '10%' ? 'active' : ''} onClick={() => handleItemClick('10%')}>10%</li>
-                <li className={activeItem === '25%' ? 'active' : ''} onClick={() => handleItemClick('25%')}>25%</li>
-                <li className={activeItem === '50%' ? 'active' : ''} onClick={() => handleItemClick('50%')}>50%</li>
-                <li className={activeItem === '75%' ? 'active' : ''} onClick={() => handleItemClick('75%')}>75%</li>
-                <li className={activeItem === 'Max' ? 'active' : ''} onClick={() => handleItemClick('Max')}>Max</li>
-            </ul>
+            
             <div className="text-center">
-                <button className="btn-lg" onClick={() => onUserVest()}>Buy & Stake</button>
+                <button className="btn-lg" onClick={() => onUserVest()}>Stake</button>
             </div>
-            <p>A <span className='deposits-purest'>{activeItem}</span> tax is charged on buys </p>
         </div>
     );
 };
