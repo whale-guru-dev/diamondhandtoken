@@ -95,6 +95,35 @@ input[type="number"] {
   }
 }
 
+.wrapper-vault-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 24px;
+  margin-top: 25px;
+
+  @media (max-width: 767.98px) {
+    display: grid;
+    grid-template-columns: 1fr ;
+  }
+
+  .stake-available {
+    opacity: 0.5;
+  }
+
+  .stake-content {
+    padding: 28px 30px 19px 30px;
+
+    .btn-lg {
+      margin: 0 auto 8px;
+    }
+
+    .stake-content .purest {
+      padding: 28px 0 38px;
+    }
+  }
+}
+
 .vault-content {
   // display: grid;
   // grid-template-columns: 1fr 1fr;

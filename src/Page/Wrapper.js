@@ -30,7 +30,7 @@ const Wrapper = () => {
 
                         </div>
                         <div className="col-lg-9">
-                            <div className="vault-content wrapper-content">
+                            <div className="wrapper-vault-content wrapper-content">
                                 <StakeWrapper chainId={chainId} account={account}/>
                                 <div className='vault-text'>
                                     After Bridging  your DT Tokens from PulseChain to Ethereum, use the Token Wrapper to receive the functioning DT Token on ETHereum
