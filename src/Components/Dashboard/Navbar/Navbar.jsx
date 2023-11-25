@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { HiOutlineMenu } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import Ethereum from "../../../Assets/Icons/Ethereum";
@@ -6,11 +6,21 @@ import Pulse from "../../../Assets/Icons/Pulse";
 import Binancedex from "../../../Assets/Icons/Binancedex";
 import Polygon from "../../../Assets/Icons/Polygon";
 import ConnectBtn from "../../Header/ConnectBtn";
+import useSuperToken from "../../../Hooks/useSuperToken";
 
 const Navbar = () => {
+  const handler = useRef(null);
   const [scroll, setScroll] = useState(false);
   const [offcanvasOpen, setOffcanvasOpen] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
+  const [tokenEthPrice, setTokenEthPrice] = useState(0);
+  const [tokenBscPrice, setTokenBscPrice] = useState(0);
+  const [tokenPolygonPrice, setTokenPolygonPrice] = useState(0);
+  const [tokenPlsPrice, setTokenPlsPrice] = useState(0);
+
+  const {
+    onGetTokenPrice
+  } = useSuperToken(1);
 
   const toggleOffcanvas = () => {
     setOffcanvasOpen(!offcanvasOpen);
@@ -21,9 +31,40 @@ const Navbar = () => {
     });
   }, []);
 
-  const toggleConnection = () => {
-    setIsConnected(!isConnected);
-  };
+  useEffect(() => {
+    async function getPrices() {
+        const promises = [];
+
+        promises.push(
+          onGetTokenPrice('eth'),
+          onGetTokenPrice('bsc'),
+          onGetTokenPrice('polygon_pos'),
+          onGetTokenPrice('pulsechain')
+        );
+
+        const [tokenEthPrice, tokenBscPrice, tokenPolygonPrice, tokenPlsPrice] = await Promise.all(promises);
+        setTokenEthPrice(tokenEthPrice);
+        setTokenBscPrice(tokenBscPrice);
+        setTokenPolygonPrice(tokenPolygonPrice);
+        setTokenPlsPrice(tokenPlsPrice);
+
+        return true;
+    }
+
+    handler.current = setInterval(() => {
+      getPrices();
+    }, 5000);
+
+    return () => {
+        if (handler.current) {
+            clearInterval(handler.current);
+        }
+    };
+  }, []);
+
+  // const toggleConnection = () => {
+  //   setIsConnected(!isConnected);
+  // };
   return (
     <>
       <nav
@@ -58,13 +99,33 @@ const Navbar = () => {
             </div>
             <div className="d-lg-flex align-items-center justify-content-center gap-4">
               <div className="nav-btn d-flex justify-content-center mt-lg-0 mt-4 ms-auto">
-                {dashboardData.map((item) => (
+                {/* {dashboardData.map((item) => (
                   <a href="/#" className="staking-item">
                     <span>{item.text}</span>
                     {item.number}
                     <span>{item.icon}</span>
                   </a>
-                ))}
+                ))} */}
+                  <a href="/#" className="staking-item">
+                    <span>DT Price</span>
+                    ${Number(tokenPlsPrice).toFixed(2)}
+                    <span><Pulse /></span>
+                  </a>
+                  <a href="/#" className="staking-item">
+                    <span>DT Price</span>
+                    ${Number(tokenBscPrice).toFixed(2)}
+                    <span><Binancedex /></span>
+                  </a>
+                  <a href="/#" className="staking-item">
+                    <span>DT Price</span>
+                    ${Number(tokenEthPrice).toFixed(2)}
+                    <span><Ethereum /></span>
+                  </a>
+                  <a href="/#" className="staking-item">
+                    <span>DT Price</span>
+                    ${Number(tokenPolygonPrice).toFixed(2)}
+                    <span><Polygon /></span>
+                  </a>
                 <div className="dropdown-center select-dropdown">
                   <button
                     className="select-btn"
@@ -129,25 +190,25 @@ const selectData = [
   },
 ];
 
-const dashboardData = [
-  {
-    icon: <Pulse />,
-    text: "DH Price",
-    number: "$15.47",
-  },
-  {
-    icon: <Binancedex />,
-    text: "DH Price",
-    number: "$15.47",
-  },
-  {
-    icon: <Ethereum />,
-    text: "DH Price",
-    number: "$15.47",
-  },
-  {
-    icon: <Polygon />,
-    text: "DH Price",
-    number: "$15.47",
-  },
-];
+// const dashboardData = [
+//   {
+//     icon: <Pulse />,
+//     text: "DH Price",
+//     number: "$15.47",
+//   },
+//   {
+//     icon: <Binancedex />,
+//     text: "DH Price",
+//     number: "$15.47",
+//   },
+//   {
+//     icon: <Ethereum />,
+//     text: "DH Price",
+//     number: "$15.47",
+//   },
+//   {
+//     icon: <Polygon />,
+//     text: "DH Price",
+//     number: "$15.47",
+//   },
+// ];

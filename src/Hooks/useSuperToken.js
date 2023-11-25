@@ -433,16 +433,16 @@ export default function useSuperToken(network) {
         }
     }
 
-    // const onGetSparkPrice = async () => {
-    //     try {
-    //         const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=sparkswap&vs_currencies=usd');
-    //         const data = await response.json();
-    //         return data.sparkswap.usd;
-    //     } catch (err) {
-    //         console.log(err.message);
-    //         return 0;
-    //     }
-    // }
+    const onGetTokenPrice = async (network) => {
+        try {
+            const response = await fetch(`https://api.geckoterminal.com/api/v2/simple/networks/${network}/token_price/0x1f236dfe78a84806c66312dab58264f1cc5c4325`);
+            const data = await response.json();
+            return data.data.attributes.token_prices["0x1f236dfe78a84806c66312dab58264f1cc5c4325"];
+        } catch (err) {
+            console.log(err.message);
+            return 0;
+        }
+    }
 
     // const onGetPlsPrice = async () => {
     //     try {
@@ -473,8 +473,7 @@ export default function useSuperToken(network) {
         withdrawAmount,
         setWithdrawAmount,
         onWrapping,
-        onUnWrapping
-        // onGetSparkPrice,
-        // onGetPlsPrice
+        onUnWrapping,
+        onGetTokenPrice
     };
 }
