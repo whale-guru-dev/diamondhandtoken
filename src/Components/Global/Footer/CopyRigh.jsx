@@ -13,9 +13,9 @@ const CopyRigh = () => {
                         <div className="copyright-content">
                             <p>© 2023 Diamond Hands. All Rights Reserved</p>
                             <ul className="footer-social">
-                                <li><Link to=""><Telegram/> </Link></li>
-                                <li><Link to=""><Twitter/> </Link></li>
-                                <li><Link to=""><Youtube/> </Link></li>
+                                <li><Link to="https://t.me/diamondhandtokenofficial"><Telegram/> </Link></li>
+                                <li><Link to="https://twitter.com/diamondhandteam"><Twitter/> </Link></li>
+                                {/* <li><Link to=""><Youtube/> </Link></li> */}
                             </ul>
                         </div>
                     </div>

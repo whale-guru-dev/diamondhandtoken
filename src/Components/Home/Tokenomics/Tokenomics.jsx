@@ -53,7 +53,7 @@ const tokenomicsData = [
   {
     id: 1,
     title: "Token Supply & Allocation: ",
-    desc: "Upon token deployment 400,000 tokens are created on Ethereum,  Binance Smartchain, Polygon, Avalanche, and Pulsechain. On each chain 50,000 tokens are allocated to the CrossChain bridge liquidity pool, 15,000 tokens are allocated to the lp of Uniswap V2, PancakeSwap, QuickSwap, Traderjoe, and PulseX.",
+    desc: "Upon token deployment 400,000 tokens are created on Ethereum, Binance Smartchain, Polygon, Avalanche,  Pulsechain, and Arbitrum. Majority of the tokens are allocated to the CrossChain bridge and deBridge liquidity pool, 12,000 tokens are allocated to the lp of Uniswap V2, PancakeSwap, QuickSwap, Traderjoe, PulseX, and Elk Finance (Arbitrum)",
   },
   {
     id: 2,
@@ -63,12 +63,12 @@ const tokenomicsData = [
   {
     id: 3,
     title: "Buy Tax :",
-    desc: "There will be a 25% buy tax for the DT token across all blockchains it is tradeable on. This buy tax will get burned and users can avoid the buy tax by utilizing our Dapp page and using the buy and stake function in our website. This will create a purchase of the DT token with zero tax, but immediately stake the tokens upon purchase.",
+    desc: "There will be a 10% buy tax for the DT token across all blockchains it is tradeable on. This buy tax will get burned and users can avoid the buy tax by utilizing our Dapp page and using the buy and stake function in our website. This will create a purchase of the DT token with zero tax, but immediately stake the tokens upon purchase.",
   }, 
   {
     id: 4,
     title: "Cross Chain Token - ",
-    desc: "Thanks to the utility of the CrossChain Bridge & the PulseChain Bridge the DT token will be tradeable on five EVM blockchains upon launch. The activity on one chain can positively affect the activity on the other chains due to the arbitrage opportunities.",
+    desc: "Thanks to the utility of the CrossChain Bridge, deBridge, and the PulseChain Bridge the DT token will be tradeable on six EVM blockchains upon launch. The activity on one chain can positively affect the activity on the other chains due to the arbitrage opportunities.",
   },
   {
     id: 5,

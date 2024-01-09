@@ -10,7 +10,8 @@ import {
 import {
     SUPERTOKENABI,
     WRAPPERABI,
-    ERC20ABI
+    ERC20ABI,
+    ARBIWRAPPERABI
 } from '../data-access';
 import {
     getWeb3,
@@ -23,7 +24,13 @@ import STUiContext from '../Context/STUiContext';
 import {
     SuperToken_ADDRESS,
     Wrapper_ADDRESS,
-    Bridge_ADDRESS
+    Bridge_ADDRESS,
+    Wrapper_Arbi_ADDRESS,
+    Bridge_Arbi_fAVAX,
+    Bridge_Arbi_fBSC,
+    Bridge_Arbi_fETH,
+    Bridge_Arbi_fPOLY,
+    Bridge_Arbi_fPLS
 } from '../Const/super-token-consts';
 import { networks } from '../Const/super-token-consts';
 
@@ -39,6 +46,7 @@ export default function useSuperToken(network) {
     const [userVestAmount, setUserVestAmount] = useState('');
     const [depositAmount, setDepositAmount] = useState('');
     const [withdrawAmount, setWithdrawAmount] = useState('');
+    const [wrapTokenNetwork, setWrapTokenNetwork] = useState('');
 
     const {
         account,
@@ -49,7 +57,9 @@ export default function useSuperToken(network) {
     const web3 = getWeb3(library);
 
     const stContractInstance = useMemo(
-        () => new web3.eth.Contract(SUPERTOKENABI, SuperToken_ADDRESS),
+        () => {
+            return new web3.eth.Contract(SUPERTOKENABI, SuperToken_ADDRESS);
+        },
         [web3]
     );
 
@@ -57,6 +67,8 @@ export default function useSuperToken(network) {
         () => {
             if(chainId === 1) 
                 return new web3.eth.Contract(WRAPPERABI, Wrapper_ADDRESS);
+            else if(chainId === 42161)
+                return new web3.eth.Contract(ARBIWRAPPERABI, Wrapper_Arbi_ADDRESS);
             else return null;
         },
         [web3, chainId]
@@ -66,9 +78,32 @@ export default function useSuperToken(network) {
         () => {
             if(chainId === 1) 
                 return new web3.eth.Contract(ERC20ABI, Bridge_ADDRESS);
+            else if(chainId === 42161) {
+                let bridgeToken = null;
+                switch(wrapTokenNetwork) {
+                    case 'eth':
+                        bridgeToken = new web3.eth.Contract(ERC20ABI, Bridge_Arbi_fETH);
+                        break;
+                    case 'bsc':
+                        bridgeToken = new web3.eth.Contract(ERC20ABI, Bridge_Arbi_fBSC);
+                        break;
+                    case 'poly':
+                        bridgeToken = new web3.eth.Contract(ERC20ABI, Bridge_Arbi_fPOLY);
+                        break;
+                    case 'avax':
+                        bridgeToken = new web3.eth.Contract(ERC20ABI, Bridge_Arbi_fAVAX);
+                        break;
+                    case 'pls':
+                        bridgeToken = new web3.eth.Contract(ERC20ABI, Bridge_Arbi_fPLS);
+                        break;
+                    default:
+                        bridgeToken = null;
+                }
+                return bridgeToken;
+            }
             else return null;
         },
-        [web3, chainId]
+        [web3, chainId, wrapTokenNetwork]
     );
 
     const switchNetwork = async () => {
@@ -154,16 +189,16 @@ export default function useSuperToken(network) {
         }
 
         try {
-            buyAndVestAmountNumber = numberToBN(buyAndVestAmountNumber, 18); 
+            buyAndVestAmountNumber = numberToBN(buyAndVestAmountNumber, 18);
             if(network === 56) {
                 const gasPrice = await getGasPrice();
-                await stContractInstance.methods.buyAndVest().send({
+                await stContractInstance.methods.buyAndVest(0).send({
                         from: address,
                         value: buyAndVestAmountNumber,
                         gasPrice
                 });
             } else {
-                await stContractInstance.methods.buyAndVest().send({
+                await stContractInstance.methods.buyAndVest(0).send({
                     from: address,
                     value: buyAndVestAmountNumber,
                 });
@@ -207,10 +242,11 @@ export default function useSuperToken(network) {
             const allowance = await stContractInstance.methods.allowance(address, SuperToken_ADDRESS).call();
 
 
-
+            const gasPrice = await getGasPrice();
             if(allowance > userVestAmountNumber) {
                 await stContractInstance.methods.userVest(userVestAmountNumber).send({
                     from: address,
+                    gasPrice
                 });
                 addNotification({
                     title: 'Success',
@@ -220,6 +256,7 @@ export default function useSuperToken(network) {
             } else {
                 await stContractInstance.methods.approve(SuperToken_ADDRESS, userVestAmountNumber).send({
                     from: address,
+                    gasPrice
                 });
 
                 addNotification({
@@ -230,6 +267,7 @@ export default function useSuperToken(network) {
 
                 await stContractInstance.methods.userVest(userVestAmountNumber).send({
                     from: address,
+                    gasPrice
                 });
 
                 addNotification({
@@ -282,6 +320,102 @@ export default function useSuperToken(network) {
             return vestData;
         } catch(err) {
             return [];
+        } finally {
+            setLastUpdatedTime(Date.now());
+        }
+    }
+
+    const onReinvestAll = async () => {
+        try {
+            if (!isConnected() || !isChainValid()) {
+                return;
+            }
+            await stContractInstance.methods.reinvestAll().send({
+                from: address,
+            });
+            addNotification({
+                title: 'Success',
+                message: `You have successfully reinvested`,
+                type: 'success',
+            });
+        } catch(err) {
+            if(err.code && err.code === 4001) {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'You denied transaction signature',
+                    type: 'danger',
+                });
+            } else {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'Reinvest Failed.',
+                    type: 'danger',
+                });
+            }
+        } finally {
+            setLastUpdatedTime(Date.now());
+        }
+    }
+
+    const onReinvest = async (vestIndex) => {
+        try {
+            if (!isConnected() || !isChainValid()) {
+                return;
+            }
+            await stContractInstance.methods.reinvestRewards(vestIndex).send({
+                from: address,
+            });
+            addNotification({
+                title: 'Success',
+                message: `You have successfully reinvested for your Stake #${vestIndex + 1}`,
+                type: 'success',
+            });
+        } catch(err) {
+            if(err.code && err.code === 4001) {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'You denied transaction signature',
+                    type: 'danger',
+                });
+            } else {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'Reinvest Failed.',
+                    type: 'danger',
+                });
+            }
+        } finally {
+            setLastUpdatedTime(Date.now());
+        }
+    }
+
+    const onClaimAll = async (vestIndex) => {
+        try {
+            if (!isConnected() || !isChainValid()) {
+                return;
+            }
+            await stContractInstance.methods.claimAll().send({
+                from: address,
+            });
+            addNotification({
+                title: 'Success',
+                message: `You have successfully Claimed`,
+                type: 'success',
+            });
+        } catch(err) {
+            if(err.code && err.code === 4001) {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'You denied transaction signature',
+                    type: 'danger',
+                });
+            } else {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'Claim Failed.',
+                    type: 'danger',
+                });
+            }
         } finally {
             setLastUpdatedTime(Date.now());
         }
@@ -433,11 +567,183 @@ export default function useSuperToken(network) {
         }
     }
 
-    const onGetTokenPrice = async (network) => {
+    const onGetUserArbiBridgeTokenBalance = async () => {
+        const balance = await bridgeContractInstance.methods.balanceOf(account).call();
+        return Number(BNtoNumber(balance.toString(), 18));
+    }
+
+    const onArbiWrapping = async () => {
+        let depositAmountNumber = Number(depositAmount);
+        if (depositAmountNumber <= 0 || !isConnected() || !isChainValid()) {
+            return;
+        }
+
+        if(!wrapTokenNetwork) {
+            addNotification({
+                title: 'Invalid Bridge Token',
+                message: `Please select bridge token.`,
+                type: 'danger',
+            });
+            return ;
+        }
+
         try {
-            const response = await fetch(`https://api.geckoterminal.com/api/v2/simple/networks/${network}/token_price/0x1f236dfe78a84806c66312dab58264f1cc5c4325`);
+            depositAmountNumber = numberToBN(depositAmountNumber, 18);
+
+            const allowance = await bridgeContractInstance.methods.allowance(address, Wrapper_Arbi_ADDRESS).call();
+
+            let bridgeTokenAddress = '';
+            switch(wrapTokenNetwork) {
+                case 'eth':
+                    bridgeTokenAddress = Bridge_Arbi_fETH;
+                    break;
+                case 'bsc':
+                    bridgeTokenAddress = Bridge_Arbi_fBSC;
+                    break;
+                case 'poly':
+                    bridgeTokenAddress = Bridge_Arbi_fPOLY;
+                    break;
+                case 'avax':
+                    bridgeTokenAddress = Bridge_Arbi_fAVAX;
+                    break;
+                case 'pls':
+                    bridgeTokenAddress = Bridge_Arbi_fPLS;
+                    break;
+                default:
+                    bridgeTokenAddress = Bridge_Arbi_fBSC;
+            }
+
+            if(allowance > depositAmountNumber) {
+                await wrapperContractInstance.methods.deposit(depositAmountNumber, bridgeTokenAddress).send({
+                    from: address,
+                });
+                
+            } else {
+                await bridgeContractInstance.methods.approve(Wrapper_Arbi_ADDRESS, depositAmountNumber).send({
+                    from: address,
+                });
+
+                addNotification({
+                    title: 'Success',
+                    message: `You have successfully Approved ${depositAmount} Token`,
+                    type: 'success',
+                });
+
+                await wrapperContractInstance.methods.deposit(depositAmountNumber, bridgeTokenAddress).send({
+                    from: address,
+                });
+            }
+
+            addNotification({
+                title: 'Success',
+                message: `You have successfully Wrapped ${depositAmount} Token`,
+                type: 'success',
+            });
+        } catch (err) {
+            console.log(err)
+            if(err.code && err.code === 4001) {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'You denied transaction signature',
+                    type: 'danger',
+                });
+            } else {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'Wrapping Failed. Please check if you have enough balance.',
+                    type: 'danger',
+                });
+            }
+        } finally {
+            setLastUpdatedTime(Date.now());
+        }
+    }
+
+    const onArbiUnWrapping = async () => {
+        let withdrawAmountNumber = Number(depositAmount);
+        if (withdrawAmountNumber <= 0 || !isConnected() || !isChainValid()) {
+            return;
+        }
+
+        try {
+            withdrawAmountNumber = numberToBN(withdrawAmountNumber, 18);
+
+            const allowance = await stContractInstance.methods.allowance(address, Wrapper_Arbi_ADDRESS).call();
+
+            let bridgeTokenAddress = '';
+            switch(wrapTokenNetwork) {
+                case 'eth':
+                    bridgeTokenAddress = Bridge_Arbi_fETH;
+                    break;
+                case 'bsc':
+                    bridgeTokenAddress = Bridge_Arbi_fBSC;
+                    break;
+                case 'poly':
+                    bridgeTokenAddress = Bridge_Arbi_fPOLY;
+                    break;
+                case 'avax':
+                    bridgeTokenAddress = Bridge_Arbi_fAVAX;
+                    break;
+                case 'pls':
+                    bridgeTokenAddress = Bridge_Arbi_fPLS;
+                    break;
+                default:
+                    bridgeTokenAddress = Bridge_Arbi_fBSC;
+            }
+
+            if(allowance > withdrawAmountNumber) {
+                await wrapperContractInstance.methods.withdraw(withdrawAmountNumber, bridgeTokenAddress).send({
+                    from: address,
+                });
+                
+            } else {
+                await stContractInstance.methods.approve(Wrapper_Arbi_ADDRESS, withdrawAmountNumber).send({
+                    from: address,
+                });
+
+                addNotification({
+                    title: 'Success',
+                    message: `You have successfully Approved ${depositAmount} Token`,
+                    type: 'success',
+                });
+
+                
+
+                await wrapperContractInstance.methods.withdraw(withdrawAmountNumber, bridgeTokenAddress).send({
+                    from: address,
+                });
+            }
+
+            addNotification({
+                title: 'Success',
+                message: `You have successfully Unwrapped ${depositAmount} Token`,
+                type: 'success',
+            });
+        } catch (err) {
+            console.log(err)
+            if(err.code && err.code === 4001) {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'You denied transaction signature',
+                    type: 'danger',
+                });
+            } else {
+                addNotification({
+                    title: 'Failed!',
+                    message: 'Unwrapping Failed. Please check if you have enough balance.',
+                    type: 'danger',
+                });
+            }
+        } finally {
+            setLastUpdatedTime(Date.now());
+        }
+    }
+
+    const onGetTokenPrice = async (network, tokenAddress) => {
+        try {
+            const response = await fetch(`https://api.geckoterminal.com/api/v2/simple/networks/${network}/token_price/${tokenAddress}`);
             const data = await response.json();
-            return data.data.attributes.token_prices["0x1f236dfe78a84806c66312dab58264f1cc5c4325"];
+            return data.data.attributes.token_prices[tokenAddress];
         } catch (err) {
             console.log(err.message);
             return 0;
@@ -466,7 +772,10 @@ export default function useSuperToken(network) {
         onBuyAndVest,
         onUserVest,
         onGetVestInfo,
+        onClaimAll,
         onClaim,
+        onReinvest,
+        onReinvestAll,
         switchNetwork,
         depositAmount,
         setDepositAmount,
@@ -474,6 +783,11 @@ export default function useSuperToken(network) {
         setWithdrawAmount,
         onWrapping,
         onUnWrapping,
-        onGetTokenPrice
+        onGetTokenPrice,
+        wrapTokenNetwork,
+        setWrapTokenNetwork,
+        onArbiWrapping,
+        onArbiUnWrapping,
+        onGetUserArbiBridgeTokenBalance
     };
 }

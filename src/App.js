@@ -10,6 +10,9 @@ import Ethereum from "./Page/Ethereum";
 import Wrappers from "./Page/Wrapper";
 import Polygon from "./Page/Polygon"; 
 import WalletModal from "./Components/WalletModal";
+import Avalanche from "./Page/Avalanche";
+import ArbiWrapper from "./Page/ArbiWrapper";
+import Arbitrum from "./Page/Arbitrum";
 
 function App() {
   const Wrapper = ({ children }) => {
@@ -33,7 +36,10 @@ function App() {
           <Route path="/binance-chain" element={<BinanceChain />} />
           <Route path="/ethereum" element={<Ethereum />} />
           <Route path="/polygon" element={<Polygon />} />
+          <Route path="/avalanche" element={<Avalanche />} />
+          <Route path="/arbitrum" element={<Arbitrum />} />
           <Route path="/wrapper" element={<Wrappers />} />
+          <Route path="/arbi-wrapper" element={<ArbiWrapper />} />
         </Routes>
       </Wrapper>
     </BrowserRouter>

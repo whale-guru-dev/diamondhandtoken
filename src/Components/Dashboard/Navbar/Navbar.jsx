@@ -7,6 +7,9 @@ import Binancedex from "../../../Assets/Icons/Binancedex";
 import Polygon from "../../../Assets/Icons/Polygon";
 import ConnectBtn from "../../Header/ConnectBtn";
 import useSuperToken from "../../../Hooks/useSuperToken";
+import Avalanche from "../../../Assets/Icons/Avalanche";
+import { SuperToken_ADDRESS } from "../../../Const/super-token-consts";
+import Arbitrum from "../../../Assets/Icons/Arbitrum";
 
 const Navbar = () => {
   const handler = useRef(null);
@@ -17,6 +20,8 @@ const Navbar = () => {
   const [tokenBscPrice, setTokenBscPrice] = useState(0);
   const [tokenPolygonPrice, setTokenPolygonPrice] = useState(0);
   const [tokenPlsPrice, setTokenPlsPrice] = useState(0);
+  const [tokenAvalanchePrice, setTokenAvalanchePrice] = useState(0);
+  const [tokenArbitrumPrice, setTokenArbitrumPrice] = useState(0);
 
   const {
     onGetTokenPrice
@@ -36,24 +41,28 @@ const Navbar = () => {
         const promises = [];
 
         promises.push(
-          onGetTokenPrice('eth'),
-          onGetTokenPrice('bsc'),
-          onGetTokenPrice('polygon_pos'),
-          onGetTokenPrice('pulsechain')
+          onGetTokenPrice('eth', SuperToken_ADDRESS),
+          onGetTokenPrice('bsc', SuperToken_ADDRESS),
+          onGetTokenPrice('polygon_pos', SuperToken_ADDRESS),
+          onGetTokenPrice('pulsechain', SuperToken_ADDRESS),
+          onGetTokenPrice('avax', SuperToken_ADDRESS),
+          onGetTokenPrice('arbitrum', SuperToken_ADDRESS),
         );
 
-        const [tokenEthPrice, tokenBscPrice, tokenPolygonPrice, tokenPlsPrice] = await Promise.all(promises);
+        const [tokenEthPrice, tokenBscPrice, tokenPolygonPrice, tokenPlsPrice, tokenAvalanchePrice, tokenArbitrumPrice] = await Promise.all(promises);
         setTokenEthPrice(tokenEthPrice);
         setTokenBscPrice(tokenBscPrice);
         setTokenPolygonPrice(tokenPolygonPrice);
         setTokenPlsPrice(tokenPlsPrice);
+        setTokenAvalanchePrice(tokenAvalanchePrice);
+        setTokenArbitrumPrice(tokenArbitrumPrice);
 
         return true;
     }
 
     handler.current = setInterval(() => {
       getPrices();
-    }, 5000);
+    }, 30000);
 
     return () => {
         if (handler.current) {
@@ -126,6 +135,16 @@ const Navbar = () => {
                     ${Number(tokenPolygonPrice).toFixed(2)}
                     <span><Polygon /></span>
                   </a>
+                  <a href="/#" className="staking-item">
+                    <span>DT Price</span>
+                    ${Number(tokenAvalanchePrice).toFixed(2)}
+                    <span><Avalanche /></span>
+                  </a>
+                  <a href="/#" className="staking-item">
+                    <span>DT Price</span>
+                    ${Number(tokenArbitrumPrice).toFixed(2)}
+                    <span><Arbitrum /></span>
+                  </a>
                 <div className="dropdown-center select-dropdown">
                   <button
                     className="select-btn"
@@ -187,6 +206,14 @@ const selectData = [
   {
     link: "/pulsechain",
     text: "PulseChain",
+  },
+  {
+    link: "/avalanche",
+    text: "Avalanche",
+  },
+  {
+    link: "/arbitrum",
+    text: "Arbitrum One",
   },
 ];
 

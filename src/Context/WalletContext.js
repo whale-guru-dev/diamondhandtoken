@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { getPulseNodeUrl } from './getPulseNodeUrl';
 
 const WalletContext = React.createContext({
   showWalletModal: false,
@@ -25,15 +24,17 @@ export const ConnectorNames = {
   WalletConnect: 'WalletConnect',
 };
 
-const injected = new InjectedConnector({ supportedChainIds: [1, 56, 137, 369] });
+const injected = new InjectedConnector({ supportedChainIds: [1, 56, 137, 369, 43114, 42161] });
 const walletconnect = new WalletConnectConnector({
   rpc: { 
     1 : 'https://mainnet.infura.io/v3/',
     56: 'https://bsc-dataseed3.ninicoin.io/',
     137: 'https://polygon-rpc.com',
-    369: 'https://rpc.pulsechain.com'
+    369: 'https://rpc.pulsechain.com',
+    43114: 'https://avalanche.drpc.org',
+    42161: 'https://rpc.arb1.arbitrum.gateway.fm'
    },
-  supportedChainIds: [1, 56, 137, 369],
+  supportedChainIds: [1, 56, 137, 369, 43114, 42161],
 });
 
 export const connectorsByName = {

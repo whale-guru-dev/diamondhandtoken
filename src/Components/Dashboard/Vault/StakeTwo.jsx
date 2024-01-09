@@ -64,11 +64,11 @@ const StakeTwo = ({chainId, account}) => {
                         <strong>$0.00</strong>
                     </span>
                     <span>
-                        <div className="h5">DH</div>
+                        <div className="h5">DT</div>
                     </span>
                 </div>
                 <div className="stake-available">
-                    <p>DH Available:</p>
+                    <p>DT Available:</p>
                     <p>{balance.toFixed(5)}</p>
                 </div>
             </div>

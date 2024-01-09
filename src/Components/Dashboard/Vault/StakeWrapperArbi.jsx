@@ -4,18 +4,25 @@ import useSuperToken from '../../../Hooks/useSuperToken';
 import { WalletContext } from '../../../Context/WalletContext';
 import { FETCH_INTERVAL } from "../../../Const/super-token-consts";
 
-const StakeWrapper = ({chainId, account}) => {
+const StakeWrapperArbi = ({chainId, account}) => {
     const handler = useRef(null);
     const { setShowWalletModal } = useContext(WalletContext);
     const [balance, setBalance] = useState(0);
 
+    const handleItemClick = (network) => {
+        setWrapTokenNetwork(network);
+    };
+
     const {
         depositAmount,
         setDepositAmount,
+        wrapTokenNetwork,
+        setWrapTokenNetwork,
         onGetUserTokenBalance,
-        onWrapping,
-        onUnWrapping,
-    } = useSuperToken(1);
+        onArbiWrapping,
+        onArbiUnWrapping,
+        onGetUserArbiBridgeTokenBalance
+    } = useSuperToken(42161);
 
     useEffect(() => {
 		if(!account || !chainId) {
@@ -24,9 +31,15 @@ const StakeWrapper = ({chainId, account}) => {
         async function getBalance() {
             const promises = [];
             if (account && chainId) {
-                promises.push(
-                    onGetUserTokenBalance()
-                );
+                if(!wrapTokenNetwork)
+                    promises.push(
+                        onGetUserTokenBalance()
+                    );
+                else if(wrapTokenNetwork) {
+                    promises.push(
+                        onGetUserArbiBridgeTokenBalance()
+                    );
+                }
             } else {
                 promises.push(0)
             }
@@ -46,7 +59,7 @@ const StakeWrapper = ({chainId, account}) => {
                 clearInterval(handler.current);
             }
         };
-    }, [account]);
+    }, [account, wrapTokenNetwork]);
 
     return (
         <div className="stake-content">
@@ -66,13 +79,19 @@ const StakeWrapper = ({chainId, account}) => {
                     <p>{balance.toFixed(5)}</p>
                 </div>
             </div>
-            
+            <ul className="purest">
+                <li className={wrapTokenNetwork === 'bsc' ? 'active' : ''} onClick={() => handleItemClick('bsc')}>BSC</li>
+                <li className={wrapTokenNetwork === 'eth' ? 'active' : ''} onClick={() => handleItemClick('eth')}>ETH</li>
+                <li className={wrapTokenNetwork === 'poly' ? 'active' : ''} onClick={() => handleItemClick('poly')}>POLY</li>
+                <li className={wrapTokenNetwork === 'avax' ? 'active' : ''} onClick={() => handleItemClick('avax')}>AVAX</li>
+                <li className={wrapTokenNetwork === 'pls' ? 'active' : ''} onClick={() => handleItemClick('pls')}>PLS</li>
+            </ul>
             <div className="text-center stake-btn">
-                <button className="btn-lg" onClick={() => onWrapping()}>Wrap Token</button>
-                <button className="btn-lg" onClick={() => onUnWrapping()}>Unwrap Token</button>
+                <button className="btn-lg" onClick={() => onArbiWrapping()}>Wrap Token</button>
+                <button className="btn-lg" onClick={() => onArbiUnWrapping()}>Unwrap Token</button>
             </div> 
         </div>
     );
 };
 
-export default StakeWrapper;
+export default StakeWrapperArbi;

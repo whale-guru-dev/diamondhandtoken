@@ -13,7 +13,10 @@ const VaultTable = ({chainId, account}) => {
 
   const {
     onGetVestInfo,
-    onClaim
+    onClaim,
+    onReinvest,
+    onClaimAll,
+    onReinvestAll
   } = useSuperToken(chainId);
 
   useEffect(() => {
@@ -60,6 +63,11 @@ const VaultTable = ({chainId, account}) => {
           <li>Action</li>
         </ul>
         <div className="table-body">
+          <div className="button-group" style={{margin: 'auto'}}>
+            <button className="reinvest" style={{width: '100px'}} onClick={() => onReinvestAll()}>Reinvest All</button>
+            <button className="claim" style={{width: '100px'}} onClick={() => onClaimAll()}>Claim All</button>
+          </div>
+
           {vestData && vestData.map((item, index) => (
             <ul className="vault-table-item" key={item.index}>
               <li>{index + 1}</li>
@@ -69,7 +77,7 @@ const VaultTable = ({chainId, account}) => {
               <li>{item.reward}</li>
               <li>
                 <div className="button-group">
-                  {/* <button className="reinvest">Reinvest</button> */}
+                  <button className="reinvest" onClick={() => onReinvest(index)}>Reinvest</button>
                   <button className="claim" onClick={() => onClaim(index)}>Claim</button>
                 </div>
               </li>

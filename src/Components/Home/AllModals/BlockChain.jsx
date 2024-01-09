@@ -6,6 +6,8 @@ import Ethereum from "../../../Assets/Icons/Ethereum";
 import Binancedex from "../../../Assets/Icons/Binancedex";
 import Polygon from "../../../Assets/Icons/Polygon";
 import { Link } from "react-router-dom";
+import Avalanche from "../../../Assets/Icons/Avalanche";
+import Arbitrum from "../../../Assets/Icons/Arbitrum";
 
 const BlockChain = (props) => {
   return (
@@ -37,24 +39,34 @@ const BlockChain = (props) => {
 export default BlockChain;
 
 const blockChainData = [
-    {
-        icon: <Pulses/>,
-        link: "/pulsechain",
-        desc: "PulseChain",
-    },
-    {
-        icon: <Binancedex/>,
-        link: "/binance-chain",
-        desc: "Binance Chain",
-    },
-    {
-        icon: <Ethereum/>,
-        link: "/ethereum",
-        desc: "Ethereum",
-    },
-    {
-        icon: <Polygon/>,
-        link: "/polygon",
-        desc: "Polygon",
-    },
+  {
+      icon: <Pulses/>,
+      link: "/pulsechain",
+      desc: "PulseChain",
+  },
+  {
+      icon: <Binancedex/>,
+      link: "/binance-chain",
+      desc: "Binance Chain",
+  },
+  {
+      icon: <Ethereum/>,
+      link: "/ethereum",
+      desc: "Ethereum",
+  },
+  {
+      icon: <Polygon/>,
+      link: "/polygon",
+      desc: "Polygon",
+  },
+  {
+      icon: <Avalanche/>,
+      link: "/avalanche",
+      desc: "Avalanche",
+  },
+  {
+      icon: <Arbitrum/>,
+      link: "/arbitrum",
+      desc: "ArbiTrum One",
+  },
 ]

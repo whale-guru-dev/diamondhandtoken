@@ -21,22 +21,23 @@ const Hero = () => {
                   Welcome to the first fairlaunched multi-chain ROI Dapp & Open market presale. Please take the time to read our projects website, doc page, join our group chats, and follow our social media channels.
                 </p>
                 <div className="hero-btn-con d-flex gap-3 align-items-center justify-content-center">
-                  <button
+                  <a
                     className="nav_btn"
-                    onClick={() => setChainShow(true)}
+                    href="https://waffleswap-three.vercel.app/"
+                    target="_blank"
                   >
-                    Launch Dapp
-                  </button>
+                    WF Prototype
+                  </a>
                   <div className="social-hero">
-                    <Link to="">
+                    <Link to="https://t.me/diamondhandtokenofficial">
                       <Telegram />
                     </Link>
-                    <Link to="">
+                    <Link to="https://twitter.com/diamondhandteam">
                       <Twitter />
                     </Link>
-                    <Link to="">
+                    {/* <Link to="">
                       <Youtube />
-                    </Link>
+                    </Link> */}
                   </div>
                 </div>
                 <div className="hero-img">

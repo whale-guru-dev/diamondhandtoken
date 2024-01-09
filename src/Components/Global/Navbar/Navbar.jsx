@@ -65,7 +65,7 @@ const Navbar = () => {
                     className="nav-link"
                     onClick={toggleOffcanvas}
                   >
-                    Uniqueness
+                    PhaseMap
                   </a>
                 </li>
                 <li className="nav-item"> 
@@ -74,7 +74,7 @@ const Navbar = () => {
                     className="nav-link"
                     onClick={toggleOffcanvas}
                   >
-                    Staking
+                    Venom
                   </a>
                 </li>
                 <li className="nav-item">
@@ -92,13 +92,31 @@ const Navbar = () => {
                     target="_blank"
                     className="nav-link"
                   >
-                    Bridge Info (DOCS)
+                    Bridge
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    href="https://techadoptiongroup.gitbook.io/diamondhandtoken/protocol/charts-for-dt"
+                    target="_blank"
+                    className="nav-link"
+                  >
+                    Charts
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    href="https://techadoptiongroup.gitbook.io/diamondhandtoken/protocol/how-to-buy-dt"
+                    target="_blank"
+                    className="nav-link"
+                  >
+                    Buy Tokens
                   </a>
                 </li>
               </ul>
               <div className="nav-btn d-flex justify-content-center mt-lg-0 mt-4 ms-auto">
                 <button className="nav_btn" onClick={() => setChainShow(true)}>
-                  Launch Dapp
+                  Begin Staking
                 </button>
               </div>
             </div>

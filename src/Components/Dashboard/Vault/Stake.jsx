@@ -57,14 +57,15 @@ const Stake = ({chainId, account}) => {
 
     return (
         <div className="stake-content">
-            <div className="h3">Stake</div>
-            <p>There is currently a 25% buy tax for the DT token on all DEXs. However, using this website allows you to buy the tokens without incurring any taxes, but the tokens will be immediately staked.</p>
+            <div className="h3">Buy + Stake</div>
+            <p>There is currently a 10% buy tax for the DT token on all DEXs. However, using this website allows you to buy the tokens without incurring any taxes, but the tokens will be immediately staked.</p>
             <div className="stake-form">
                 <div className="stake-text">
                     <span>
                         <input type="number" placeholder='0.0' value={buyAndVestAmount} onChange={(e) => setBuyAndBestAmount(e.currentTarget.value)}/>
                         <strong>$0.00</strong>
                     </span>
+                    
                     <span>
                         <div className="h5">{network && network.symbol}</div>
                     </span>
